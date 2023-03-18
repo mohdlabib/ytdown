@@ -1,7 +1,7 @@
 class YoutubeUrl {
     static validateUrl(url) {
         let data;
-        if (url.includes("youtube.com")) {
+        if (url.includes("www.youtube.com")) {
             let params = new URLSearchParams(new URL(url).search);
             let videoId = params.get("v");
 

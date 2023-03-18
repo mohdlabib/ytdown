@@ -6,7 +6,7 @@ const http = require('http')
 const port = process.env.PORT || 3000
 const app = express();
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
     if (req.query.url) {
         const url = req.query.url
         let resultC = CheckUrl.validateUrl(url)

@@ -9,7 +9,7 @@ class YoutubeScraper {
 
     await page.waitForSelector('.table-bordered tbody');
 
-    const index = Math.floor(Math.random() * 3);
+    const index = 1;
     await page.evaluate((index) => {
       const tr = document.querySelectorAll('.table-bordered tbody tr')[index];
       const td3 = tr.querySelector('td:nth-child(3) > button');
@@ -26,7 +26,10 @@ class YoutubeScraper {
     let data = {
       quality: td1,
       size: td2,
-      link: url
+      link : {
+        long: href,
+        short: url
+      }
     };
 
     await browser.close();
