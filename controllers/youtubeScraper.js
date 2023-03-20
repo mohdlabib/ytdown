@@ -3,7 +3,20 @@ const TinyURL = require('shefin-tinyurl');
 
 class YoutubeScraper {
   static async scrape(urls) {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-accelerated-2d-canvas",
+        "--no-first-run",
+        "--no-zygote",
+        "--single-process", // <- this one doesn't works in Windows
+        "--disable-gpu",
+      ],
+      executablePath: '/usr/bin/google-chrome-stable',
+    });
     const page = await browser.newPage();
     await page.goto('https://www.y2mate.com/youtube/' + urls);
 
