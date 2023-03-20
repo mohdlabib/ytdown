@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const tinyurl = require('tinyurl-api');
+const TinyURL = require('shefin-tinyurl');
 
 class YoutubeScraper {
   static async scrape(urls) {
@@ -9,7 +9,7 @@ class YoutubeScraper {
 
     await page.waitForSelector('.table-bordered tbody');
 
-    const index = 1;
+    const index = 2;
     await page.evaluate((index) => {
       const tr = document.querySelectorAll('.table-bordered tbody tr')[index];
       const td3 = tr.querySelector('td:nth-child(3) > button');
@@ -19,16 +19,27 @@ class YoutubeScraper {
     await page.waitForSelector('#process-result .btn-file[href]');
     const href = await page.$eval('#process-result .btn-file[href]', link => link.href);
 
+    const title = await page.$eval(`.thumbnail .caption`, el => el.innerText);
+    const thumbnail = await page.$eval(`.thumbnail img`, el => el.getAttribute('src'));
+
     const td1 = await page.$eval(`.table-bordered tbody tr:nth-child(${index + 1}) td:nth-child(1)`, el => el.innerText);
     const td2 = await page.$eval(`.table-bordered tbody tr:nth-child(${index + 1}) td:nth-child(2)`, el => el.innerText);
-    const url = await tinyurl(href);
+
+    const tinyU = async (url) => {
+      let response = await TinyURL.shorten(url);
+      return response
+    }
+
+    const url = await tinyU(href)
 
     let data = {
+      title: title,
+      thumbnail: thumbnail,
       quality: td1,
       size: td2,
-      link : {
+      link: {
+        short: url,
         long: href,
-        short: url
       }
     };
 

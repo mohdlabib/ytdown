@@ -14,6 +14,6 @@
     "express": "^4.18.2",
     "http": "^0.0.1-security",
     "puppeteer": "^19.7.5",
-    "tinyurl-api": "^1.0.1"
+    "shefin-tinyurl": "^1.0.0"
   }
 }
